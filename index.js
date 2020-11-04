@@ -7,6 +7,9 @@ let direction = 1
 const width = 10
 let appleIndex = 0
 let score = 0
+let intervalTime = 700
+let speed = 0.9
+let timerId = 0
 
 
 function createGrid() {
@@ -25,6 +28,25 @@ function createGrid() {
 createGrid()
 
 currentSnake.forEach(index => squares[index].classList.add('snake'))
+
+function startGame() {
+    //remove the snake
+    currentSnake.forEach(index => squares[index].classList.remove('snake'))
+    //remove the apple
+    squares[appleIndex].classList.remove('apple')
+    squares[appleIndex].textContent = ''
+    clearInterval(timerId)
+    currentSnake = [2, 1, 0]
+    score = 0
+    //re add new score to browser
+    scoreDisplay.textContent = score
+    direction = 1
+    intervalTime = 1000
+    generateApple()
+    //readd the class of snake to our new currentSnake
+    currentSnake.forEach(index => squares[index].classList.add('snake'))
+    timerId = setInterval(move, intervalTime)
+}
 
 function move() {
     if (
@@ -61,12 +83,12 @@ function move() {
         //display our score
         scoreDisplay.textContent = score
         //speed up our snake
-
+        clearInterval(timerId)
+        intervalTime = intervalTime * speed
+        // console.log('intervalTime:', intervalTime)
+        timerId = setInterval(move, intervalTime)
     }
 }
-move()
-
-let timerId = setInterval(move, 500)
 
 function generateApple() {
     do {
@@ -76,27 +98,28 @@ function generateApple() {
         squares[appleIndex].textContent = '🍎'
     }
 }
-generateApple()
+// generateApple()
 
-// 39 is right arrow
-// 38 is for the up arrow
-// 37 is for the left arrow
-// 40 is for the down arrow
 
 function control(e) {
+    // 39 is right arrow
+    // 38 is for the up arrow
+    // 37 is for the left arrow
+    // 40 is for the down arrow
     if (e.which === 39) {
-        console.log('right pressed:')
+        // console.log('right pressed:')
         direction = +1
     } else if (e.which === 38) {
-        console.log('up pressed:')
+        // console.log('up pressed:')
         direction = -width
     } else if (e.which === 37) {
-        console.log('left pressed:')
+        // console.log('left pressed:')
         direction = -1
     } else if (e.which === 40) {
-        console.log('down pressed:')
+        // console.log('down pressed:')
         direction = +width
     }
 }
-
 document.addEventListener('keydown', control)
+
+startBtn.addEventListener('click', startGame)

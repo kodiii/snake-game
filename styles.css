@@ -1,26 +1,48 @@
 html,
 body {
-    margin: 10px;
+    margin: 100px auto;
     padding: 10px;
+    background-color: peachpuff;
 }
 
+.container {
+    width: 500px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: sandybrown;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .grid {
     display: flex;
     flex-wrap: wrap;
-    width: 200px;
-    height: 200px;
-    border: solid 1px black;
+    width: 220px;
+    height: 220px;
+    border: solid 3px olivedrab;
+    background-color: olive;
+    border-radius: 3px;
 }
 
 .square {
     width: 20px;
     height: 20px;
+    border: solid 1px olivedrab;
+    border-radius: 3px;
 }
 
 .snake {
-    background-color: darkolivegreen;
+    background-color: peachpuff;
 }
 
 .apple {
     text-align: center;
+}
+
+.container-btn {
+    margin-top: 20px;
+}
+button {
+    padding: 10px 15px;
+    background-color: lig;
 }
