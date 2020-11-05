@@ -1,48 +1,67 @@
+* {
+    border: unset;
+    margin: 0;
+}
+
 html,
 body {
-    margin: 100px auto;
+    margin: auto;
     padding: 10px;
     background-color: peachpuff;
+    color: white;
 }
 
 .container {
-    width: 500px;
+    width: 400px;
     margin: 0 auto;
     padding: 30px;
-    background-color: sandybrown;
+    background-color: #faa307;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
+.container-score,
+.grid,
+.container-btn {
+    margin-top: 25px;
+}
+
 .grid {
     display: flex;
     flex-wrap: wrap;
     width: 220px;
     height: 220px;
-    border: solid 3px olivedrab;
-    background-color: olive;
-    border-radius: 3px;
+    border: solid 3px #264653;
+    background-color: #2a9d8f;
+    border-radius: 5px;
 }
 
 .square {
     width: 20px;
     height: 20px;
-    border: solid 1px olivedrab;
+    border: solid 1px #264653;
     border-radius: 3px;
 }
 
 .snake {
-    background-color: peachpuff;
+    background-color: #e9c46a;
 }
 
 .apple {
     text-align: center;
 }
 
-.container-btn {
-    margin-top: 20px;
-}
 button {
     padding: 10px 15px;
-    background-color: lig;
+    background-color: #e85d04;
+    color: white;
+    box-shadow: 0 2px #dc2f02;
+    border-radius: 3px;
+}
+
+button:hover,
+button:focus {
+    background-color: #dc2f02;
+    box-shadow: 0 2px #e85d04;
 }

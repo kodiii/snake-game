@@ -29,9 +29,26 @@ createGrid()
 
 currentSnake.forEach(index => squares[index].classList.add('snake'))
 
+// add head to the snake
+function snakeHead() {
+    // squares[currentSnake[0]].style.backgroundColor = '#e76f51'
+    squares[currentSnake[0]].textContent = '⚫'
+    squares[currentSnake[0].style.backgroundColor = 'white']
+}
+snakeHead()
+
+// remove the snake head
+function removeSnakeHead() {
+    // squares[currentSnake[0]].style.backgroundColor = 'unset'
+    squares[currentSnake[0]].textContent = ''
+}
+
+// start and reset the game 
 function startGame() {
     //remove the snake
     currentSnake.forEach(index => squares[index].classList.remove('snake'))
+    //remove snake head
+    removeSnakeHead()
     //remove the apple
     squares[appleIndex].classList.remove('apple')
     squares[appleIndex].textContent = ''
@@ -45,6 +62,8 @@ function startGame() {
     generateApple()
     //readd the class of snake to our new currentSnake
     currentSnake.forEach(index => squares[index].classList.add('snake'))
+    //add snake head
+    snakeHead()
     timerId = setInterval(move, intervalTime)
 }
 
@@ -55,17 +74,21 @@ function move() {
         (currentSnake[0] % width === 0 && direction === -1) || //if snake has hit left wall
         (currentSnake[0] - width < 0 && direction === -width) || //if snake has hit top
         squares[currentSnake[0] + direction].classList.contains('snake')
-    )
+    ) {
         return clearInterval(timerId)
+    }
 
     //remove last element from our currentSnake array
     const tail = currentSnake.pop()
     //remove styling from last element
     squares[tail].classList.remove('snake')
+    //remove snake head
+    removeSnakeHead()
     //add sqaure in direction we are heading
     currentSnake.unshift(currentSnake[0] + direction)
     //add styling so we can see it
     squares[currentSnake[0]].classList.add('snake')
+    snakeHead()
 
     //deal with snake head getting the apple
     if (squares[currentSnake[0]].classList.contains('apple')) {
@@ -78,6 +101,7 @@ function move() {
         currentSnake.push(tail)
         //generate a new apple
         generateApple()
+        snakeHead()
         //add one to the score
         score++
         //display our score
