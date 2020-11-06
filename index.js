@@ -33,7 +33,7 @@ currentSnake.forEach(index => squares[index].classList.add('snake'))
 function snakeHead() {
     // squares[currentSnake[0]].style.backgroundColor = '#e76f51'
     squares[currentSnake[0]].textContent = '⚫'
-    squares[currentSnake[0].style.backgroundColor = 'white']
+    // squares[currentSnake[0].style.backgroundColor = 'white']
 }
 snakeHead()
 
@@ -75,6 +75,8 @@ function move() {
         (currentSnake[0] - width < 0 && direction === -width) || //if snake has hit top
         squares[currentSnake[0] + direction].classList.contains('snake')
     ) {
+        let youLooseAudio
+        youLooseAudio.src = 'audio'
         return clearInterval(timerId)
     }
 
