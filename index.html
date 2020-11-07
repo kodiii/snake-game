@@ -4,7 +4,18 @@
     </head>
     <body>
         <div class="container">
-            <h1>Snake Game</h1>
+            <h1>Snake 🍎</h1>
+            <!-- modal rules window -->
+            <div id="overlay">
+                <div id="modal-rules">
+                    <span id="close-modal">X</span>
+                    <h3>RULES</h3>
+                    <p>Move the snake to eat the apples, 
+                        more apples the snake eat, the game speed will increase.
+                        Avoid the walls, if the snake hit the walls the game finishes.
+                    </p>
+                </div>
+            </div>
             <!-- score -->
             <div class="container-score">
                 <h2>Score: <span id="score">0</span></h2>
@@ -13,9 +24,11 @@
             <div class="grid"></div>
             <!-- start and info buttons -->
             <div class="container-btn">
-                <button id="start">START 🍎 RESET</button>
-                <button id="info">INFO ℹ️</button>
+                <button id="start">START/RESET</button>
+                <button id="rules">RULES</button>
             </div>
+            <audio id="looseAudio" src="audio/391536.wav"></audio>
+            <audio id="appleByte" src="audio/apple_byte.wav"></audio>
         </div>
         <script src="index.js"></script>
     </body>

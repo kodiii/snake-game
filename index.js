@@ -1,6 +1,13 @@
 const grid = document.querySelector('.grid')
 const startBtn = document.getElementById('start')
+const rulesBtn = document.getElementById('rules')
 const scoreDisplay = document.getElementById('score')
+const looseAudio = document.getElementById('looseAudio')
+const appleByte = document.getElementById('appleByte')
+const modalOverlay = document.getElementById('overlay')
+const modalRules = document.getElementById('modal-rules')
+const closeModal = document.getElementById('close-modal')
+
 let squares = []
 let currentSnake = [2, 1, 0]
 let direction = 1
@@ -31,38 +38,37 @@ currentSnake.forEach(index => squares[index].classList.add('snake'))
 
 // add head to the snake
 function snakeHead() {
-    // squares[currentSnake[0]].style.backgroundColor = '#e76f51'
     squares[currentSnake[0]].textContent = '⚫'
-    // squares[currentSnake[0].style.backgroundColor = 'white']
+    squares[currentSnake[0]].style.fontSize = '10px'
+    squares[currentSnake[0]].style.textAlign = 'center'
 }
 snakeHead()
 
 // remove the snake head
 function removeSnakeHead() {
-    // squares[currentSnake[0]].style.backgroundColor = 'unset'
     squares[currentSnake[0]].textContent = ''
 }
 
 // start and reset the game 
 function startGame() {
-    //remove the snake
+    // remove the snake
     currentSnake.forEach(index => squares[index].classList.remove('snake'))
-    //remove snake head
+    // remove snake head
     removeSnakeHead()
-    //remove the apple
+    // remove the apple
     squares[appleIndex].classList.remove('apple')
     squares[appleIndex].textContent = ''
     clearInterval(timerId)
     currentSnake = [2, 1, 0]
     score = 0
-    //re add new score to browser
+    // re add new score to browser
     scoreDisplay.textContent = score
     direction = 1
     intervalTime = 1000
     generateApple()
-    //readd the class of snake to our new currentSnake
+    // rea dd the class of snake to our new currentSnake
     currentSnake.forEach(index => squares[index].classList.add('snake'))
-    //add snake head
+    // add snake head
     snakeHead()
     timerId = setInterval(move, intervalTime)
 }
@@ -75,8 +81,8 @@ function move() {
         (currentSnake[0] - width < 0 && direction === -width) || //if snake has hit top
         squares[currentSnake[0] + direction].classList.contains('snake')
     ) {
-        let youLooseAudio
-        youLooseAudio.src = 'audio'
+        // play audio when hit the walls
+        looseAudio.play()
         return clearInterval(timerId)
     }
 
@@ -94,24 +100,26 @@ function move() {
 
     //deal with snake head getting the apple
     if (squares[currentSnake[0]].classList.contains('apple')) {
-        //remove the class of apple
+        // play sound when apple is eated
+        appleByte.play()
+        // remove the class of apple
         squares[currentSnake[0]].classList.remove('apple')
         squares[appleIndex].textContent = ''
-        //grow our snake by adding class of snake to it
+        // grow our snake by adding class of snake to it
         squares[tail].classList.add('snake')
-        //grow our snake array
+        // grow our snake array
         currentSnake.push(tail)
-        //generate a new apple
+        // generate a new apple
         generateApple()
+        // add snake head
         snakeHead()
-        //add one to the score
+        // add one to the score
         score++
         //display our score
         scoreDisplay.textContent = score
         //speed up our snake
         clearInterval(timerId)
         intervalTime = intervalTime * speed
-        // console.log('intervalTime:', intervalTime)
         timerId = setInterval(move, intervalTime)
     }
 }
@@ -122,10 +130,10 @@ function generateApple() {
     } while (squares[appleIndex].classList.contains('snake')) {
         squares[appleIndex].classList.add('apple')
         squares[appleIndex].textContent = '🍎'
+        squares[appleIndex].style.fontSize = '13px'
+        squares[appleIndex].style.textAlign = 'center'
     }
 }
-// generateApple()
-
 
 function control(e) {
     // 39 is right arrow
@@ -133,19 +141,27 @@ function control(e) {
     // 37 is for the left arrow
     // 40 is for the down arrow
     if (e.which === 39) {
-        // console.log('right pressed:')
         direction = +1
     } else if (e.which === 38) {
-        // console.log('up pressed:')
         direction = -width
     } else if (e.which === 37) {
-        // console.log('left pressed:')
         direction = -1
     } else if (e.which === 40) {
-        // console.log('down pressed:')
         direction = +width
     }
 }
 document.addEventListener('keydown', control)
 
 startBtn.addEventListener('click', startGame)
+
+function displayModalRules() {
+    modalRules.style.display = 'block'
+    modalOverlay.style.display = 'block'
+    console.log('closeModal:', closeModal)
+
+    closeModal.addEventListener('click', function () {
+        modalRules.style.display = 'none'
+        modalOverlay.style.display = 'none'
+    })
+}
+rulesBtn.addEventListener('click', displayModalRules)
