@@ -3,23 +3,22 @@
     margin: 0;
 }
 
+/* @font-face {
+    font-family: 'AdvancedPixelLcd7-yGOq';
+    src: url('fonts/AdvancedPixelLcd7-yGOq.ttf'),
+    url('fonts/EntezareZohoor2.ttf') format('truetype'),
+    url('fonts/EntezareZohoor2.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+} */
+
 html,
 body {
-    margin: auto;
-    padding: 10px;
+    font-size: 18px;
     background-color: peachpuff;
     color: white;
 }
 
-.container {
-    width: 400px;
-    margin: 0 auto;
-    padding: 30px;
-    background-color: #faa307;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
 h1 {
     font-size: 60px;
@@ -43,6 +42,20 @@ h1 {
     -webkit-text-stroke-color: #2a9d8f;
 }
 
+h3 {
+    text-align: center;
+}
+
+.container {
+    width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #faa307;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .container-score,
 .grid,
 .container-btn {
@@ -54,7 +67,7 @@ h1 {
 
 #score {
     padding: 5px 10px;
-    border: solid 3px #264653;
+    border: solid 3px white;
     border-radius: 5px;
 }
 
@@ -86,7 +99,23 @@ h1 {
     text-align: center;
 }
 
-button {
+/* buttons style */
+.container-btn {
+    width: 220px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#start,
+#rules {
+    padding: 10px 15px;
+    color: white;
+    border-radius: 3px;
+    text-shadow: 0px 1px 1px black;
+    background-clip: text;
+}
+
+#start {
     padding: 10px 15px;
     background-color: #e85d04;
     color: white;
@@ -94,35 +123,64 @@ button {
     border-radius: 3px;
 }
 
-button:hover {
+#rules {
+    padding: 10px 15px;
+    background-color: #2a9d8f;
+    color: white;
+    box-shadow: 0 2px #264653;
+    border-radius: 3px;
+}
+
+#start:hover {
     background-color: #dc2f02;
     box-shadow: 0 2px #e85d04;
 }
 
-#modal-rules {
-    width: 350px;
+#rules:hover {
+    background-color: #264653;
+    box-shadow: 0 2px #2a9d8f;
+}
+
+/* modal window rules */
+#modal {
     display: none;
-    position: relative;
+    position: absolute;
+}
+
+.modal-rules {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    margin: 25px auto;
     color: black;
     background-color: white;
-    border: solid 2px #264653;
     padding: 10px;
-    text-align: center;
+    border: solid 5px #264653;
+    border-radius: 30px 0 30px 30px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.8);
+    animation-duration: 2s;
+    animation-name: fadein;
 }
 
 #close-modal {
-    text-align: right;
-    color: brown;
+    margin-left: auto;
+    padding: 5px 8px;
+    color: white;
+    background-color: #dc2f02;
+    border-radius: 5px;
 }
 
-#overlay {
-    width: 100%;
-    height: 100%;
-    display: none;
-    position: absolute;
-    background-color: rgba(168, 168, 168, 0.5);
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
+.rules-list li {
+    margin-top: 10px;
+}
+
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {     
+        opacity: 1;
+    }
 }

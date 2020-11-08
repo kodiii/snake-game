@@ -6,15 +6,15 @@
         <div class="container">
             <h1>Snake 🍎</h1>
             <!-- modal rules window -->
-            <div id="overlay">
-                <div id="modal-rules">
-                    <span id="close-modal">X</span>
+            <div id="modal">
+                <div class="modal-rules">
+                    <button id="close-modal">X</button>
                     <h3>RULES</h3>
-                    <p>Move the snake to eat the apples, 
-                        more apples the snake eat, the game speed will increase.
-                        Avoid the walls, if the snake hit the walls the game finishes.
-                    </p>
-                </div>
+                    <ol class="rules-list">
+                        <li>Move the snake to eat the apples 🍎 using the arrow keys ⬅️ ⬆️ ⬇️ ➡️, for each apple the eaten by the snake, you will gain <b>1 score point</b>, the game speed will also increase.</li>
+                        <li>Avoid the walls, if the snake hit the walls or is own body the game finish.</li>
+                    </ol>
+                </div>             
             </div>
             <!-- score -->
             <div class="container-score">

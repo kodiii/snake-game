@@ -4,8 +4,7 @@ const rulesBtn = document.getElementById('rules')
 const scoreDisplay = document.getElementById('score')
 const looseAudio = document.getElementById('looseAudio')
 const appleByte = document.getElementById('appleByte')
-const modalOverlay = document.getElementById('overlay')
-const modalRules = document.getElementById('modal-rules')
+const modal = document.getElementById('modal')
 const closeModal = document.getElementById('close-modal')
 
 let squares = []
@@ -18,7 +17,7 @@ let intervalTime = 700
 let speed = 0.9
 let timerId = 0
 
-
+// define grid layout
 function createGrid() {
     //create elements
     //create 100 of these elements
@@ -51,6 +50,8 @@ function removeSnakeHead() {
 
 // start and reset the game 
 function startGame() {
+    // close modal rules if open
+    modal.style.display = 'none'
     // remove the snake
     currentSnake.forEach(index => squares[index].classList.remove('snake'))
     // remove snake head
@@ -102,7 +103,7 @@ function move() {
     if (squares[currentSnake[0]].classList.contains('apple')) {
         // play sound when apple is eated
         appleByte.play()
-        // remove the class of apple
+        // remove the class of apple and content
         squares[currentSnake[0]].classList.remove('apple')
         squares[appleIndex].textContent = ''
         // grow our snake by adding class of snake to it
@@ -117,13 +118,15 @@ function move() {
         score++
         //display our score
         scoreDisplay.textContent = score
-        //speed up our snake
+        // reset the timer
         clearInterval(timerId)
+        // speed up our snake
         intervalTime = intervalTime * speed
         timerId = setInterval(move, intervalTime)
     }
 }
 
+// generate a new random apple after been eaten by the snake
 function generateApple() {
     do {
         appleIndex = Math.floor(Math.random() * squares.length)
@@ -154,14 +157,15 @@ document.addEventListener('keydown', control)
 
 startBtn.addEventListener('click', startGame)
 
+// event to open modal rules window to display rules
 function displayModalRules() {
-    modalRules.style.display = 'block'
-    modalOverlay.style.display = 'block'
-    console.log('closeModal:', closeModal)
-
+    // stop game
+    clearInterval(timerId)
+    // display the modal rules
+    modal.style.display = 'block'
+    // event to close the modal rules
     closeModal.addEventListener('click', function () {
-        modalRules.style.display = 'none'
-        modalOverlay.style.display = 'none'
+        modal.style.display = 'none'
     })
 }
 rulesBtn.addEventListener('click', displayModalRules)
