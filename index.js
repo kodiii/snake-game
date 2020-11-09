@@ -16,6 +16,7 @@ let score = 0
 let intervalTime = 700
 let speed = 0.9
 let timerId = 0
+let brickIndex = 0
 
 // define grid layout
 function createGrid() {
@@ -38,8 +39,6 @@ currentSnake.forEach(index => squares[index].classList.add('snake'))
 // add head to the snake
 function snakeHead() {
     squares[currentSnake[0]].textContent = '⚫'
-    squares[currentSnake[0]].style.fontSize = '10px'
-    squares[currentSnake[0]].style.textAlign = 'center'
 }
 snakeHead()
 
@@ -57,29 +56,34 @@ function startGame() {
     // remove snake head
     removeSnakeHead()
     // remove the apple
-    squares[appleIndex].classList.remove('apple')
-    squares[appleIndex].textContent = ''
+    removeApple()
+    // reset the score to 0
+    score = 0
+    scoreDisplay.textContent = score
+    // stop the game and reset to default values
     clearInterval(timerId)
     currentSnake = [2, 1, 0]
-    score = 0
-    // re add new score to browser
-    scoreDisplay.textContent = score
     direction = 1
     intervalTime = 1000
-    generateApple()
-    // rea dd the class of snake to our new currentSnake
+    // re add the class of snake to our new currentSnake
     currentSnake.forEach(index => squares[index].classList.add('snake'))
-    // add snake head
+    // add snake head and generate a new apple
     snakeHead()
+    generateApple()
+    // set the timer to default
     timerId = setInterval(move, intervalTime)
+    // remove brick wall
+    levels()
 }
 
+// check if snake it the walls and bricks
 function move() {
     if (
         (currentSnake[0] + width >= width * width && direction === width) || //if snake has hit bottom
         (currentSnake[0] % width === width - 1 && direction === 1) || //if snake has hit right wall
         (currentSnake[0] % width === 0 && direction === -1) || //if snake has hit left wall
         (currentSnake[0] - width < 0 && direction === -width) || //if snake has hit top
+        (squares[currentSnake[0]] === squares[brickIndex]) ||
         squares[currentSnake[0] + direction].classList.contains('snake')
     ) {
         // play audio when hit the walls
@@ -104,8 +108,7 @@ function move() {
         // play sound when apple is eated
         appleByte.play()
         // remove the class of apple and content
-        squares[currentSnake[0]].classList.remove('apple')
-        squares[appleIndex].textContent = ''
+        removeApple()
         // grow our snake by adding class of snake to it
         squares[tail].classList.add('snake')
         // grow our snake array
@@ -123,6 +126,8 @@ function move() {
         // speed up our snake
         intervalTime = intervalTime * speed
         timerId = setInterval(move, intervalTime)
+        // add levels
+        removeBrick()
     }
 }
 
@@ -133,11 +138,15 @@ function generateApple() {
     } while (squares[appleIndex].classList.contains('snake')) {
         squares[appleIndex].classList.add('apple')
         squares[appleIndex].textContent = '🍎'
-        squares[appleIndex].style.fontSize = '13px'
-        squares[appleIndex].style.textAlign = 'center'
     }
 }
+// remove the apple when starting the game
+function removeApple() {
+    squares[appleIndex].classList.remove('apple')
+    squares[appleIndex].textContent = ''
+}
 
+// control the snake
 function control(e) {
     // 39 is right arrow
     // 38 is for the up arrow
@@ -169,3 +178,40 @@ function displayModalRules() {
     })
 }
 rulesBtn.addEventListener('click', displayModalRules)
+
+// generate bricks
+function generateBrick() {
+    do {
+        brickIndex = Math.floor(Math.random() * squares.length)
+    } while (squares[brickIndex].classList.contains('snake') || squares[brickIndex].classList.contains('apple')) {
+        squares[brickIndex].classList.add('brick')
+        squares[brickIndex].textContent = '🧱'
+    }
+}
+
+// remove bricks
+function removeBrick() {
+    squares[brickIndex].classList.remove('brick')
+    squares[brickIndex].textContent = ''
+}
+
+// add levels
+function levels() {
+    switch (score) {
+        case 1:
+            generateBrick()
+            break;
+        case 2:
+            generateBrick()
+            break;
+        case 10:
+            generateBrick()
+            break;
+        case 15:
+            generateBrick()
+            break;
+        case 20:
+            generateBrick()
+            break;
+    }
+}
