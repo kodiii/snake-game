@@ -1,27 +1,36 @@
 <html>
     <head>
         <link rel="stylesheet" href="styles.css">
+        <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700&display=swap" rel="stylesheet">
     </head>
     <body>
         <div class="container">
             <h1>🐍 Snake 🍎</h1>
             <!-- modal rules window -->
-            <div id="modal">
+            <div class="modal">
                 <div class="modal-rules">
                     <button id="close-modal">X</button>
                     <h3>RULES</h3>
                     <ol class="rules-list">
                         <li>Move the snake to eat the apples 🍎 using the arrow keys ⬅️ ⬆️ ⬇️ ➡️, for each apple the eaten by the snake, you will gain <b>1 score point</b>, the game speed will also increase.</li>
-                        <li>Avoid the walls, if the snake hit the walls or is own body the game finish.</li>
+                        <li>Avoid the lateral walls and the brick walls , if the snake hit the walls or is own body the game finish.</li>
                     </ol>
                 </div>             
             </div>
             <!-- score -->
             <div class="container-score">
-                <h2>Score: <span id="score">0</span></h2>
+                <h3>SCORE:</h3>
+                <span id="score">0</span>
+            </div>
+            <!-- display finish game -->
+            <div class="loose-container">
+                <div class="you-loose-msg">
+                    <h2>YOU LOOSE</h2>
+                </div>
             </div>
             <!-- game grid -->
-            <div class="grid"></div>
+            <div class="grid">
+            </div>
             <!-- start and info buttons -->
             <div class="container-btn">
                 <button id="start">START/RESET</button>

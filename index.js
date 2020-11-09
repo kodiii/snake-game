@@ -4,8 +4,9 @@ const rulesBtn = document.getElementById('rules')
 const scoreDisplay = document.getElementById('score')
 const looseAudio = document.getElementById('looseAudio')
 const appleByte = document.getElementById('appleByte')
-const modal = document.getElementById('modal')
+const modal = document.querySelector('.modal')
 const closeModal = document.getElementById('close-modal')
+const looseContainer = document.querySelector('.loose-container')
 
 let squares = []
 let currentSnake = [2, 1, 0]
@@ -13,7 +14,7 @@ let direction = 1
 const width = 10
 let appleIndex = 0
 let score = 0
-let intervalTime = 700
+let intervalTime = 1000
 let speed = 0.9
 let timerId = 0
 let brickIndex = 0
@@ -49,8 +50,9 @@ function removeSnakeHead() {
 
 // start and reset the game 
 function startGame() {
-    // close modal rules if open
+    // close modal windows if open
     modal.style.display = 'none'
+    looseContainer.style.display = 'none'
     // remove the snake
     currentSnake.forEach(index => squares[index].classList.remove('snake'))
     // remove snake head
@@ -70,10 +72,10 @@ function startGame() {
     // add snake head and generate a new apple
     snakeHead()
     generateApple()
+    // remove brick wall
+    squares[brickIndex].classList.remove('brick')
     // set the timer to default
     timerId = setInterval(move, intervalTime)
-    // remove brick wall
-    levels()
 }
 
 // check if snake it the walls and bricks
@@ -83,10 +85,11 @@ function move() {
         (currentSnake[0] % width === width - 1 && direction === 1) || //if snake has hit right wall
         (currentSnake[0] % width === 0 && direction === -1) || //if snake has hit left wall
         (currentSnake[0] - width < 0 && direction === -width) || //if snake has hit top
-        (squares[currentSnake[0]] === squares[brickIndex]) ||
+        (squares[currentSnake[0]] === squares[brickIndex]) || //if snake it the brick wall
         squares[currentSnake[0] + direction].classList.contains('snake')
     ) {
         // play audio when hit the walls
+        looseContainer.style.display = 'block'
         looseAudio.play()
         return clearInterval(timerId)
     }
@@ -103,7 +106,7 @@ function move() {
     squares[currentSnake[0]].classList.add('snake')
     snakeHead()
 
-    //deal with snake head getting the apple
+    //deal with snake head eating the apple
     if (squares[currentSnake[0]].classList.contains('apple')) {
         // play sound when apple is eated
         appleByte.play()
@@ -121,13 +124,13 @@ function move() {
         score++
         //display our score
         scoreDisplay.textContent = score
+        // add levels
+        levels()
         // reset the timer
         clearInterval(timerId)
         // speed up our snake
         intervalTime = intervalTime * speed
         timerId = setInterval(move, intervalTime)
-        // add levels
-        removeBrick()
     }
 }
 
@@ -168,6 +171,8 @@ startBtn.addEventListener('click', startGame)
 
 // event to open modal rules window to display rules
 function displayModalRules() {
+    // hide you loose modal if open
+    looseContainer.style.display = 'none'
     // stop game
     clearInterval(timerId)
     // display the modal rules
@@ -185,32 +190,25 @@ function generateBrick() {
         brickIndex = Math.floor(Math.random() * squares.length)
     } while (squares[brickIndex].classList.contains('snake') || squares[brickIndex].classList.contains('apple')) {
         squares[brickIndex].classList.add('brick')
-        squares[brickIndex].textContent = '🧱'
     }
-}
-
-// remove bricks
-function removeBrick() {
-    squares[brickIndex].classList.remove('brick')
-    squares[brickIndex].textContent = ''
 }
 
 // add levels
 function levels() {
     switch (score) {
-        case 1:
-            generateBrick()
-            break;
-        case 2:
+        case 5:
             generateBrick()
             break;
         case 10:
             generateBrick()
             break;
-        case 15:
+        case 20:
             generateBrick()
             break;
-        case 20:
+        case 25:
+            generateBrick()
+            break;
+        case 30:
             generateBrick()
             break;
     }
