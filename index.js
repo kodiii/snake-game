@@ -2,11 +2,11 @@ const grid = document.querySelector('.grid')
 const startBtn = document.getElementById('start')
 const rulesBtn = document.getElementById('rules')
 const scoreDisplay = document.getElementById('score')
-const looseAudio = document.getElementById('looseAudio')
-const appleByte = document.getElementById('appleByte')
 const modal = document.querySelector('.modal')
 const closeModal = document.getElementById('close-modal')
 const looseContainer = document.querySelector('.loose-container')
+const looseAudio = document.getElementById('looseAudio')
+const appleByte = document.getElementById('appleByte')
 
 let squares = []
 let currentSnake = [2, 1, 0]
@@ -14,7 +14,7 @@ let direction = 1
 const width = 10
 let appleIndex = 0
 let score = 0
-let intervalTime = 1000
+let intervalTime
 let speed = 0.9
 let timerId = 0
 let brickIndex = 0
@@ -56,24 +56,25 @@ function startGame() {
     // remove the snake
     currentSnake.forEach(index => squares[index].classList.remove('snake'))
     // remove snake head
+    squares[currentSnake[0]].classList.remove('snake-explode')
+    squares[currentSnake[0]].classList.remove('brick')
     removeSnakeHead()
     // remove the apple
     removeApple()
     // reset the score to 0
     score = 0
     scoreDisplay.textContent = score
+    // remove brick wall
+    removeBricks()
     // stop the game and reset to default values
     clearInterval(timerId)
     currentSnake = [2, 1, 0]
     direction = 1
-    intervalTime = 1000
+    intervalTime = 700
     // re add the class of snake to our new currentSnake
     currentSnake.forEach(index => squares[index].classList.add('snake'))
-    // add snake head and generate a new apple
-    snakeHead()
+    // generate new apple
     generateApple()
-    // remove brick wall
-    squares[brickIndex].classList.remove('brick')
     // set the timer to default
     timerId = setInterval(move, intervalTime)
 }
@@ -85,12 +86,14 @@ function move() {
         (currentSnake[0] % width === width - 1 && direction === 1) || //if snake has hit right wall
         (currentSnake[0] % width === 0 && direction === -1) || //if snake has hit left wall
         (currentSnake[0] - width < 0 && direction === -width) || //if snake has hit top
-        (squares[currentSnake[0]] === squares[brickIndex]) || //if snake it the brick wall
+        (squares[currentSnake[0]].classList.contains('brick')) || //if snake it the brick wall
         squares[currentSnake[0] + direction].classList.contains('snake')
     ) {
+        squares[currentSnake[0]].classList.add('snake-explode')
+        squares[currentSnake[0]].textContent = '💥'
         // play audio when hit the walls
-        looseContainer.style.display = 'block'
         looseAudio.play()
+        looseContainer.style.display = 'block'
         return clearInterval(timerId)
     }
 
@@ -118,8 +121,6 @@ function move() {
         currentSnake.push(tail)
         // generate a new apple
         generateApple()
-        // add snake head
-        snakeHead()
         // add one to the score
         score++
         //display our score
@@ -138,7 +139,7 @@ function move() {
 function generateApple() {
     do {
         appleIndex = Math.floor(Math.random() * squares.length)
-    } while (squares[appleIndex].classList.contains('snake')) {
+    } while (squares[appleIndex].classList.contains('snake') && squares[appleIndex].classList.contains('brick')) {
         squares[appleIndex].classList.add('apple')
         squares[appleIndex].textContent = '🍎'
     }
@@ -147,6 +148,22 @@ function generateApple() {
 function removeApple() {
     squares[appleIndex].classList.remove('apple')
     squares[appleIndex].textContent = ''
+}
+
+// generate bricks
+function generateBrick() {
+    do {
+        brickIndex = Math.floor(Math.random() * squares.length)
+    } while (squares[brickIndex].classList.contains('snake') || squares[brickIndex].classList.contains('apple')) {
+        squares[brickIndex].classList.add('brick')
+    }
+}
+
+// remove all bricks from grid
+function removeBricks() {
+    for (let i = 0; i < squares.length; i++) {
+        squares[i].classList.remove('brick')
+    }
 }
 
 // control the snake
@@ -166,7 +183,7 @@ function control(e) {
     }
 }
 document.addEventListener('keydown', control)
-
+// event button to start/reset game
 startBtn.addEventListener('click', startGame)
 
 // event to open modal rules window to display rules
@@ -184,15 +201,6 @@ function displayModalRules() {
 }
 rulesBtn.addEventListener('click', displayModalRules)
 
-// generate bricks
-function generateBrick() {
-    do {
-        brickIndex = Math.floor(Math.random() * squares.length)
-    } while (squares[brickIndex].classList.contains('snake') || squares[brickIndex].classList.contains('apple')) {
-        squares[brickIndex].classList.add('brick')
-    }
-}
-
 // add levels
 function levels() {
     switch (score) {
@@ -202,13 +210,13 @@ function levels() {
         case 10:
             generateBrick()
             break;
+        case 15:
+            generateBrick()
+            break;
         case 20:
             generateBrick()
             break;
         case 25:
-            generateBrick()
-            break;
-        case 30:
             generateBrick()
             break;
     }

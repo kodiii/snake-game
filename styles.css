@@ -19,23 +19,9 @@ h1 {
     0px 1px 0 rgb(28, 60, 73),
     0px 2px 0 rgb(23, 55, 68),
     0px 3px 0 rgb(18, 50, 63),
-    0px 4px 0 rgb(13, 45, 58),
-    0px 5px 0 rgb(8, 40, 53),
-    0px 6px 0 rgb(3, 35, 48),
-    0px 7px 0 rgb(-2, 30, 43),
-    0px 8px 0 rgb(-7, 25, 38),
-    0px 9px 0 rgb(-12, 20, 33),
-    0px 10px 0 rgb(-17, 15, 28),
-    0px 11px 10px rgba(0, 0, 0, 0.6),
-    0px 11px 1px rgba(0, 0, 0, 0.5),
     0px 0px 10px rgba(0, 0, 0, .2);
     -webkit-text-stroke-width: 1.5px;
     -webkit-text-stroke-color: #2a9d8f;
-}
-
-h3 {
-    font-size: 1.5rem;
-    color: black;
 }
 
 h2 {
@@ -46,12 +32,18 @@ h2 {
     color: rgb(153, 4, 4);
 }
 
+h3 {
+    font-size: 1.5rem;
+    color: #e85d04;
+    text-shadow: 0px 1px 1px black;
+}
+
 /* layout styles */
 .container {
     width: 400px;
     margin: 50px auto;
     padding: 30px;
-    background-color: #faa307;
+    background-color: #264653;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -66,19 +58,21 @@ h2 {
 .container-score {
     display: flex;
     align-items: center;
-    color: black;
 }
 
 #score {
     font-family: 'Big Shoulders Stencil Display',
     cursive;
     font-size: 2rem;
-    color: black;
+    min-width: 30px;
+    color: #264653;
     margin-left: 20px;
-    padding: 0 10px;
+    padding: 5px 10px;
+    border: solid 3px #2a9d8f;
     border-radius: 5px;
     box-shadow: 0 1px 5px black;
     background-color: white;
+    text-align: center;
 }
 
 .grid {
@@ -86,34 +80,46 @@ h2 {
     flex-wrap: wrap;
     width: 220px;
     height: 220px;
-    border: solid 3px #264653;
-    background-color: #2a9d8f;
+    border: solid 3px #e85d04;
+    background-color: #e9c46a;
     border-radius: 5px;
+    box-shadow: inset 0 0 10px black;
 }
 
 .square {
     width: 20px;
     height: 20px;
-    border: solid 1px #264653;
+    border: solid 1px #e85d04;
     border-radius: 2px;
+    opacity: 0.3;
 }
 
 .snake {
-    background-color: #e9c46a;
+    background-color: #2a9d8f;
     border-radius: 10px;
-    border: solid 1px #e85d04;
+    border: solid 1px #264653;
     box-shadow: 0 0 2px #000000;
-    font-size: 10px;
+    font-size: 0.5rem;
     text-align: center;
+    opacity: 1;
+}
+
+.snake-explode {
+    font-size: 2rem;
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .apple {
     font-size: 13px;
     text-align: center;
+    opacity: 1;
 }
 
 .brick {
-    background-color: brown;
+    background-color: #e85d04;
+    opacity: 1;
 }
 
 /* buttons styles */
@@ -140,21 +146,21 @@ h2 {
     border-radius: 3px;
 }
 
-#rules {
-    padding: 10px 15px;
-    background-color: #2a9d8f;
-    color: white;
-    box-shadow: 0 2px #264653;
-    border-radius: 3px;
-}
-
 #start:hover {
     background-color: #dc2f02;
     box-shadow: 0 2px #e85d04;
 }
 
+#rules {
+    padding: 10px 15px;
+    background-color: #2a9d8f;
+    color: white;
+    box-shadow: 0 2px #2f6075;
+    border-radius: 3px;
+}
+
 #rules:hover {
-    background-color: #264653;
+    background-color: #2f6075;
     box-shadow: 0 2px #2a9d8f;
 }
 
@@ -164,6 +170,7 @@ h2 {
     display: none;
     position: absolute;
     height: 300px;
+    z-index: 9999;
 }
 
 .modal-rules {
@@ -174,7 +181,7 @@ h2 {
     color: black;
     background-color: white;
     padding: 10px;
-    border: solid 5px #264653;
+    border: solid 5px #2a9d8f;
     border-radius: 30px 0 30px 30px;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.8);
     animation-duration: 2s;
@@ -182,12 +189,14 @@ h2 {
 }
 
 .you-loose-msg {
+    position: relative;
     width: 200px;
     margin: 240px auto;
     background-color: rgba(255, 255, 255, 0.7);
     padding: 10px;
     animation-duration: 1s;
     animation-name: fadein;
+    /* z-index: 999; */
 }
 
 #close-modal {
